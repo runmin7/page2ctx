@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "HTML 다운로드",
+  "version": "1.2.0",
+  "minimum_chrome_version": "116",
+  "description": "보고 있는 페이지를 Markdown, HTML(순수), HTML(CSS 포함) 파일로 저장하거나 복사합니다. frame/iframe 내용도 병합합니다.",
+  "permissions": ["scripting", "downloads", "contextMenus", "offscreen"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "HTML 다운로드"
+  },
+  "commands": {
+    "save-md": {
+      "suggested_key": { "default": "Alt+Shift+M" },
+      "description": "현재 페이지를 Markdown으로 저장"
+    },
+    "save-pure": {
+      "suggested_key": { "default": "Alt+Shift+P" },
+      "description": "현재 페이지를 HTML (순수)로 저장"
+    },
+    "save-css": {
+      "suggested_key": { "default": "Alt+Shift+C" },
+      "description": "현재 페이지를 HTML (CSS 포함)으로 저장"
+    }
+  }
+}

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { width: 340px; margin: 0; padding: 12px 14px 14px; font: 13px/1.5 "Malgun Gothic", sans-serif; color: #222; background: #fff; }
+    h1 { margin: 0 0 8px; font-size: 15px; }
+
+    .tabs { display: flex; border-bottom: 1px solid #e3e7ed; margin-bottom: 12px; }
+    .tabs button { flex: 1; padding: 7px 0; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px;
+                   background: none; font: inherit; color: #777; cursor: pointer; border-radius: 0; }
+    .tabs button:hover { color: #333; background: none; }
+    .tabs button.active { color: #2a62b8; border-bottom-color: #2a62b8; font-weight: 600; }
+    .panel[hidden] { display: none; }
+
+    .target { display: flex; gap: 6px; align-items: center; padding: 7px 9px; border-radius: 6px; background: #f3f5f8; margin-bottom: 10px; }
+    .target img { width: 16px; height: 16px; flex: none; }
+    .target span { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+
+    .label { margin: 8px 0 3px; color: #777; font-size: 12px; }
+    .row { display: flex; gap: 6px; }
+    .row button { flex: 1; padding: 7px 4px; font: inherit; font-weight: 600; border: 1px solid #c9d3e0; border-radius: 6px; background: #f5f8fc; cursor: pointer; }
+    .row button:hover { background: #e8f0fa; }
+    .row button.primary { background: #2a62b8; border-color: #2a62b8; color: #fff; }
+    .row button.primary:hover { background: #22549f; }
+    .row button:disabled { opacity: .5; cursor: wait; }
+    .formats { margin: 8px 0 0; color: #888; font-size: 11px; }
+
+    #tabList { max-height: 170px; overflow-y: auto; margin-bottom: 8px; border: 1px solid #e3e7ed; border-radius: 6px; padding: 4px 6px; }
+    #tabList label { display: flex; gap: 6px; align-items: center; padding: 2px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; }
+    #tabList label span { overflow: hidden; text-overflow: ellipsis; }
+    #tabList .popup { color: #8a4b00; font-weight: 600; flex: none; }
+    #tabList .empty { color: #999; padding: 4px 0; }
+    .tools { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 12px; color: #666; }
+    .tools a { color: #2a62b8; cursor: pointer; }
+
+    #status { min-height: 1.5em; margin: 10px 0 6px; white-space: pre-line; word-break: break-all; }
+    #status.ok { color: #2e7d32; }
+    #status.err { color: #c62828; }
+    #status.warn { color: #b26a00; }
+    .hint { margin: 0; padding-top: 8px; border-top: 1px solid #eee; color: #888; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <h1>HTML 다운로드</h1>
+
+  <div class="tabs" role="tablist">
+    <button role="tab" data-panel="currentPanel" class="active">현재 탭</button>
+    <button role="tab" data-panel="manyPanel" id="manyTabButton">여러 탭</button>
+  </div>
+
+  <div class="panel" id="currentPanel">
+    <div class="target"><img id="targetIcon" alt="" hidden><span id="targetTitle">불러오는 중…</span></div>
+    <div class="label">저장</div>
+    <div class="row">
+      <button class="primary" data-action="save" data-mode="md">MD</button>
+      <button data-action="save" data-mode="pure">순수 HTML</button>
+      <button data-action="save" data-mode="css">CSS 포함</button>
+    </div>
+    <div class="label">복사</div>
+    <div class="row">
+      <button data-action="copy" data-mode="md">MD 복사</button>
+      <button data-action="copy" data-mode="pure">순수 HTML 복사</button>
+    </div>
+    <p class="formats">MD·순수: Claude용(가벼움, 숨김 요소 제외) · CSS 포함: 화면 모양 유지 · 모두 이미지 제외</p>
+  </div>
+
+  <div class="panel" id="manyPanel" hidden>
+    <div class="tools">
+      <span id="tabCount"></span>
+      <a id="toggleAll">전체 선택/해제</a>
+    </div>
+    <div id="tabList"></div>
+    <div class="label">선택한 탭을 탭별 개별 파일로 저장</div>
+    <div class="row">
+      <button data-action="many" data-mode="md">MD</button>
+      <button data-action="many" data-mode="pure">순수 HTML</button>
+      <button data-action="many" data-mode="css">CSS 포함</button>
+    </div>
+  </div>
+
+  <p id="status"></p>
+  <p class="hint">
+    선택 영역만: 드래그 → 우클릭 → "선택 영역 저장"<br>
+    팝업 창(아이콘 없는 창)에서: Alt+Shift+M / P / C
+  </p>
+  <script src="popup.js"></script>
+</body>
+</html>
